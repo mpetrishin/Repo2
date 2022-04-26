@@ -1,0 +1,26 @@
+---
+  - name: set server settings
+    hosts: localhost
+
+    tasks:
+      - name: installing putty
+        ansible.builtin.package:
+          name: putty
+          state: latest
+
+      - name: uncomment and change /etc/ssh/sshd_config
+        lineinfile:
+          path: /etc/ssh/sshd_config
+          regexp: '^#?\s*{{ item.key }}\s'
+          line: "{{ item.key }} {{ item.value }}"
+          validate: '/usr/sbin/sshd -T -f %s'
+        with_items:
+        - key: PasswordAuthentication
+          value: "no"
+        notify: restart sshd
+
+    handlers:
+    - name: restart sshd
+      service:
+        name: sshd
+        state: restarted
