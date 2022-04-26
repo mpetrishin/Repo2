@@ -1,1 +1,12 @@
 ---
+  - name: change file permissions
+    hosts: localhost
+
+    tasks:
+      - name: changing
+        ansible.builtin.file:
+          path: /home/pmike/testfile.tst
+          state: touch
+          owner: pmike
+          group: pmike
+          mode: '0644'
