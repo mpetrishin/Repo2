@@ -1,0 +1,9 @@
+---
+  - name: test playbook
+    hosts: localhost
+
+    tasks:
+      - name: install nano
+        apt:
+          package: nano
+          state: latest
